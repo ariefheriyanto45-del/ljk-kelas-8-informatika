@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LJK ASAS Informatika VIII</title>
+<style>
+:root{--bg:#eef3f8;--ink:#16202c;--mut:#5a6878;--card:#fff;--ac:#0b6e6e;--acl:#d6efec;--bad:#b3261e;--line:#cfd9e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:12px 14px 40px}
+h1{font-size:1.35rem;margin:.2rem 0}h2{font-size:1.05rem;margin:0 0 .6rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+.mut{color:var(--mut);font-size:.9rem}
+label{display:block;font-weight:600;margin:12px 0 4px}
+input,textarea{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid #7cc4be;outline-offset:1px}
+textarea{min-height:130px;resize:vertical}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:600}
+.btn.ghost{background:#fff;color:var(--ac);border:1.5px solid var(--ac)}
+.btn:disabled{opacity:.4}
+.bar{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;display:flex;justify-content:space-between;gap:8px;padding:10px 14px;margin:0 -14px;font-size:.92rem}
+.bar b{font-variant-numeric:tabular-nums}.bar .w{color:#ffb4ab}
+.q{font-size:1.06rem;margin:.4rem 0 1rem}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;color:var(--ink)}
+.opt i{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:.9rem}
+.opt.on{background:var(--acl);border-color:var(--ac)}.opt.on i{background:var(--ac);border-color:var(--ac);color:#fff}
+.row{display:flex;gap:10px;justify-content:space-between;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.grid button{aspect-ratio:1;border:1.5px solid var(--line);background:#fff;border-radius:8px;font-size:.8rem;padding:0;color:var(--ink)}
+.grid .d{background:var(--acl);border-color:var(--ac)}.grid .c{outline:3px solid var(--ink)}
+.ov{position:fixed;inset:0;background:rgba(10,20,30,.8);display:grid;place-items:center;padding:20px;z-index:9}
+.ov[hidden]{display:none}.ov .card{max-width:420px;margin:0}
+.big{font-size:3rem;font-weight:800;color:var(--ac);line-height:1.1}
+.err{color:var(--bad);font-weight:600}
+</style></head><body>
+<main id="app"></main>
+<div class="ov" id="ov" hidden><div class="card" id="ovc"></div></div>
+<script>
+// === PENGATURAN ===
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyFlPT9pfO72QyPoiY7c7tdXPcPTjvT_Nl2DnhmwIWtCIlBC20AX5CYWLG0PyimXVX3Bg/exec";
+const DURASI = 90*60;   // detik (07.30-09.00)
+const MAX_KELUAR = 3;
+const KEY = "ljk_informatika8";
+
+const T=["pg","bs","pl","es"];
+const Q=[
+["pg","Perangkat yang digunakan untuk menghubungkan beberapa jaringan komputer adalah ....",["Keyboard","Router","Monitor","Printer"]],
+["pg","Kepanjangan dari LAN adalah ....",["Local Area Network","Large Access Network","Local Access Number","Long Area Network"]],
+["pg","Perangkat yang berfungsi mengubah sinyal digital dan analog dalam koneksi internet adalah ....",["Mouse","Modem","Speaker","Scanner"]],
+["pg","Jaringan internet tanpa menggunakan kabel disebut ....",["LAN","Kabel LAN","Wi-Fi","USB"]],
+["pg","Perangkat yang digunakan untuk menghubungkan beberapa komputer dalam satu jaringan lokal adalah ....",["Switch","Printer","Webcam","Proyektor"]],
+["pg","Contoh perangkat yang dapat digunakan untuk mengakses internet adalah ....",["Komputer","Meja","Kursi","Lemari"]],
+["pg","Jaringan komputer yang mencakup wilayah kecil seperti sekolah disebut ....",["WAN","LAN","MAN","Internet global"]],
+["pg","Fungsi utama router adalah ....",["Mencetak dokumen","Mengatur lalu lintas data jaringan","Mengetik dokumen","Memutar musik"]],
+["pg","Kabel yang sering digunakan untuk menghubungkan komputer ke jaringan LAN adalah ....",["Kabel UTP","Kabel listrik","Kabel HDMI","Kabel charger"]],
+["pg","Internet dapat digunakan untuk kegiatan berikut, kecuali ....",["Belajar daring","Mengirim email","Mencari informasi","Merusak perangkat orang lain"]],
+["pg","Scratch merupakan aplikasi yang digunakan untuk ....",["Mengolah angka saja","Membuat program sederhana","Mengedit dokumen","Menggambar bangunan"]],
+["pg","Tokoh atau objek yang digunakan dalam Scratch disebut ....",["Sprite","Router","Folder","File"]],
+["pg","Tempat untuk menampilkan gerakan sprite disebut ....",["Stage","Keyboard","Desktop","Toolbar"]],
+["pg","Blok perintah dalam Scratch digunakan untuk ....",["Mengatur jalannya program","Menghidupkan komputer","Mencetak gambar","Menghapus aplikasi"]],
+["pg","Blok perintah untuk menggerakkan sprite 10 langkah adalah ....",["Move 10 steps","Say Hello","Play Sound","Stop All"]],
+["pg","Perintah untuk memulai program Scratch biasanya menggunakan blok ....",["When green flag clicked","Stop all","Wait 1 seconds","Delete"]],
+["pg","Jika ingin membuat sprite mengatakan \"Halo\", kita menggunakan blok ....",["Move","Say","Turn","Repeat"]],
+["pg","Blok Repeat pada Scratch berfungsi untuk ....",["Mengulang perintah","Menghapus perintah","Menghentikan komputer","Mengganti nama file"]],
+["pg","Dalam Scratch, perintah untuk memainkan suara terdapat pada kategori ....",["Motion","Sound","Events","Control"]],
+["pg","Urutan langkah-langkah untuk menyelesaikan suatu masalah disebut ....",["Algoritma","Internet","Jaringan","Perangkat keras"]],
+["pg","Literasi digital adalah kemampuan untuk ....",["Menggunakan teknologi digital secara bijak","Bermain game sepanjang hari","Menyebarkan berita tanpa membaca","Menggunakan internet tanpa aturan"]],
+["pg","Contoh perilaku yang baik ketika menggunakan media sosial adalah ....",["Menghina teman","Menyebarkan berita bohong","Menggunakan bahasa yang sopan","Membagikan rahasia orang lain"]],
+["pg","Bullying yang dilakukan melalui media digital disebut ....",["Cyberbullying","Downloading","Browsing","Coding"]],
+["pg","Contoh cyberbullying adalah ....",["Mengirim ucapan selamat","Menghina teman melalui grup WhatsApp","Membantu teman belajar","Berbagi materi pelajaran"]],
+["pg","Jika menerima pesan berisi hinaan di media sosial, sebaiknya kita ....",["Membalas dengan hinaan","Menyebarkannya","Menyimpan bukti dan melapor kepada orang dewasa tepercaya","Ikut menghina orang lain"]],
+["pg","Informasi pribadi yang tidak boleh sembarangan dibagikan di internet adalah ....",["Hobi","Nomor PIN dan kata sandi","Warna kesukaan","Makanan favorit"]],
+["pg","Kata sandi yang baik seharusnya ....",["Mudah ditebak","Menggunakan tanggal lahir saja","Kuat dan tidak mudah diketahui orang lain","Sama dengan nama sendiri"]],
+["pg","Sebelum membagikan berita di media sosial, kita harus ....",["Langsung menyebarkannya","Memeriksa kebenaran informasi","Mengubah isi berita","Menghapus nama penulis"]],
+["pg","Jejak digital adalah ....",["Bekas kaki di tanah","Rekaman aktivitas seseorang di dunia digital","Kerusakan komputer","Alat untuk mengakses internet"]],
+["pg","Sikap yang tepat saat melihat teman menjadi korban cyberbullying adalah ....",["Ikut menertawakan","Membiarkannya","Mendukung korban dan melaporkan kejadian","Menyebarkan tangkapan layar untuk mengejek"]],
+["pg","Berpikir komputasional adalah cara berpikir untuk ....",["Menyelesaikan masalah secara terstruktur","Menghafalkan semua jawaban","Bermain komputer saja","Menghindari masalah"]],
+["pg","Memecah masalah besar menjadi bagian-bagian kecil disebut ....",["Abstraksi","Dekomposisi","Enkripsi","Simulasi"]],
+["pg","Menemukan kesamaan dari beberapa masalah disebut ....",["Pengenalan pola","Penghapusan data","Pengiriman data","Penyimpanan data"]],
+["pg","Mengambil informasi penting dan mengabaikan informasi yang tidak diperlukan disebut ....",["Dekomposisi","Abstraksi","Browsing","Download"]],
+["pg","Langkah-langkah yang disusun secara berurutan untuk menyelesaikan masalah disebut ....",["Algoritma","Hardware","Software","Internet"]],
+["bs","Router merupakan perangkat yang dapat mengatur lalu lintas data dalam jaringan."],
+["bs","Scratch merupakan aplikasi untuk membuat program dengan blok perintah."],
+["bs","Cyberbullying adalah tindakan mengejek atau menyakiti orang lain melalui media digital."],
+["bs","Kita boleh membagikan kata sandi kepada semua teman di media sosial."],
+["bs","Dekomposisi adalah kegiatan memecah masalah besar menjadi bagian-bagian kecil."],
+["pl","Berikut ini yang termasuk perangkat jaringan internet adalah ....",["Router","Modem","Switch","Penggaris"]],
+["pl","Berikut ini yang termasuk fitur atau bagian dalam Scratch adalah ....",["Sprite","Stage","Blok perintah","Kompor"]],
+["pl","Contoh perilaku positif dalam menggunakan internet adalah ....",["Menggunakan bahasa sopan","Memeriksa kebenaran berita","Menghargai pendapat orang lain","Menghina teman di media sosial"]],
+["pl","Berikut ini yang termasuk contoh cyberbullying adalah ....",["Mengirim komentar menghina","Menyebarkan foto teman untuk mempermalukannya","Mengancam teman melalui pesan digital","Mengirim ucapan selamat ulang tahun"]],
+["pl","Berikut ini yang termasuk konsep berpikir komputasional adalah ....",["Dekomposisi","Pengenalan pola","Abstraksi","Algoritma"]],
+["es","Jelaskan apa yang dimaksud dengan jaringan internet!"],
+["es","Sebutkan tiga perangkat yang digunakan untuk membangun jaringan internet!"],
+["es","Apa yang dimaksud dengan Scratch dan apa kegunaannya?"],
+["es","Jelaskan apa yang dimaksud dengan cyberbullying dan berikan satu contohnya!"],
+["es","Sebutkan empat konsep utama berpikir komputasional!"]
+];
+const MAT=["Perangkat jaringan internet","Scratch","Literasi digital dan bullying digital","Berpikir komputasional"];
+const HEAD={pg:"Pilihan ganda: pilih satu jawaban yang paling tepat.",bs:"Benar atau salah: tentukan pernyataan berikut.",pl:"Pilihan lebih dari satu jawaban: pilih semua yang benar.",es:"Esai: jawab dengan singkat dan jelas."};
+const L="ABCD";
+const $=s=>document.querySelector(s);
+let S=load(), tick=null;
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function render(){
+  clearInterval(tick);
+  if(!S) return start();
+  if(S.st==="exam"){tick=setInterval(clock,1000);return draw();}
+  done();
+}
+function start(){
+  $("#app").innerHTML=`<div class="card"><h1>LJK ASAS Informatika</h1>
+  <p class="mut">Kelas VIII · UPT SMP Negeri 2 Parengan · Sabtu, 5 Desember 2026 · 90 menit</p>
+  <label for="n">Nama lengkap</label><input id="n" autocomplete="off">
+  <label for="k">Kelas</label><input id="k" placeholder="Contoh: VIII-A" autocomplete="off">
+  <label for="a">Nomor absen</label><input id="a" inputmode="numeric" autocomplete="off">
+  <p class="mut">Aturan: 50 soal. Jangan membuka aplikasi lain. Jika keluar dari halaman ini ${MAX_KELUAR} kali, jawaban otomatis terkirim dan ujian selesai.</p>
+  <p class="err" id="e"></p><button class="btn" onclick="mulai()">Mulai ujian</button></div>`;
+}
+function mulai(){
+  const n=$("#n").value.trim(),k=$("#k").value.trim(),a=$("#a").value.trim();
+  if(!n||!k||!a){$("#e").textContent="Isi nama, kelas, dan nomor absen terlebih dahulu.";return;}
+  S={nama:n,kelas:k,absen:a,i:0,a:Array(Q.length).fill(""),left:0,end:Date.now()+DURASI*1000,st:"exam"};
+  save();render();
+}
+function draw(){
+  const q=Q[S.i],t=q[0],v=S.a[S.i];
+  let body="";
+  if(t==="pg"||t==="pl"){
+    body=q[2].map((o,j)=>`<button class="opt ${(t==="pg"?v===L[j]:v.includes(L[j]))?"on":""}" onclick="pick('${L[j]}')"><i>${L[j]}</i><span>${esc(o)}</span></button>`).join("");
+  }else if(t==="bs"){
+    body=[["B","Benar"],["S","Salah"]].map(o=>`<button class="opt ${v===o[0]?"on":""}" onclick="pick('${o[0]}')"><i>${o[0]}</i><span>${o[1]}</span></button>`).join("");
+  }else body=`<textarea id="es" placeholder="Tulis jawabanmu di sini" oninput="S.a[S.i]=this.value;save();mark()"></textarea>`;
+  $("#app").innerHTML=`<div class="bar"><span>Soal <b>${S.i+1}</b>/${Q.length}</span><span class="${S.left?"w":""}">Keluar: <b>${S.left}</b>/${MAX_KELUAR}</span><span>Sisa <b id="t"></b></span></div>
+  <div class="card"><p class="mut">${S.i<35?MAT[Math.floor(S.i/10)]+" · ":""}${HEAD[t]}</p><p class="q">${S.i+1}. ${esc(q[1])}</p>${body}
+  <div class="row"><button class="btn ghost" onclick="go(-1)" ${S.i?"":"disabled"}>Sebelumnya</button>
+  ${S.i<Q.length-1?`<button class="btn" onclick="go(1)">Berikutnya</button>`:`<button class="btn" onclick="konfirm()">Kirim jawaban</button>`}</div></div>
+  <div class="card"><h2>Daftar soal</h2><div class="grid">${Q.map((_,j)=>`<button id="g${j}" class="${S.a[j].trim()?"d":""} ${j===S.i?"c":""}" onclick="S.i=${j};save();draw()">${j+1}</button>`).join("")}</div>
+  <div class="row"><span class="mut">Terjawab: <b id="cnt"></b>/${Q.length}</span><button class="btn ghost" onclick="konfirm()">Kirim jawaban</button></div></div>`;
+  if(t==="es")$("#es").value=v;
+  mark();clock();
+}
+function mark(){const b=$("#g"+S.i);if(b)b.classList.toggle("d",!!S.a[S.i].trim());const c=$("#cnt");if(c)c.textContent=S.a.filter(x=>x.trim()).length;}
+function pick(x){
+  const t=Q[S.i][0];
+  if(t==="pl"){const s=new Set(S.a[S.i].split(""));s.has(x)?s.delete(x):s.add(x);S.a[S.i]=[...s].sort().join("");}
+  else S.a[S.i]=x;
+  save();draw();
+}
+function go(d){S.i=Math.max(0,Math.min(Q.length-1,S.i+d));save();draw();window.scrollTo(0,0);}
+function clock(){
+  const r=Math.max(0,Math.round((S.end-Date.now())/1000)),t=$("#t");
+  if(t)t.textContent=String(Math.floor(r/60)).padStart(2,"0")+":"+String(r%60).padStart(2,"0");
+  if(r<=0&&S.st==="exam")kirim("waktu habis");
+}
+function modal(h){$("#ovc").innerHTML=h;$("#ov").hidden=false;}
+function tutup(){$("#ov").hidden=true;}
+function konfirm(){
+  const k=S.a.filter(x=>!x.trim()).length;
+  modal(`<h2>Kirim jawaban?</h2><p>${k?`Masih ada <b>${k}</b> soal yang belum dijawab.`:"Semua soal sudah dijawab."} Setelah dikirim, jawaban tidak bisa diubah.</p><div class="row"><button class="btn ghost" onclick="tutup()">Kembali</button><button class="btn" onclick="tutup();kirim('selesai')">Kirim</button></div>`);
+}
+document.addEventListener("visibilitychange",()=>{
+  if(!S||S.st!=="exam")return;
+  if(document.hidden){
+    S.left++;save();
+    if(S.left>=MAX_KELUAR)kirim("keluar aplikasi "+MAX_KELUAR+"x");
+  }else{
+    draw();
+    modal(`<h2 class="err">Peringatan</h2><p>Kamu keluar dari LJK <b>${S.left}</b> dari ${MAX_KELUAR} kali. Jika mencapai ${MAX_KELUAR}, jawaban otomatis terkirim.</p><button class="btn" onclick="tutup()">Lanjut mengerjakan</button>`);
+  }
+});
+async function kirim(alasan){
+  if(S.st==="sent"||S.st==="sending")return;
+  S.st="sending";S.alasan=alasan;save();done();
+  try{
+    if(URL_SCRIPT.startsWith("PASTE"))throw new Error("URL belum diatur");
+    const r=await fetch(URL_SCRIPT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({nama:S.nama,kelas:S.kelas,absen:S.absen,jawaban:S.a,keluar:S.left,alasan})});
+    const j=await r.json();
+    if(!j.ok)throw new Error(j.error||"gagal");
+    S.hasil=j;S.st="sent";
+  }catch(e){S.st="pending";S.err=String(e.message||e);}
+  save();done();
+}
+function done(){
+  clearInterval(tick);tutup();
+  let h=`<div class="card"><h1>${esc(S.nama)}</h1><p class="mut">Kelas ${esc(S.kelas)} · Absen ${esc(S.absen)}</p>`;
+  if(S.st==="sending")h+=`<p>Mengirim jawaban… jangan tutup halaman ini.</p>`;
+  else if(S.st==="sent")h+=`<p>Jawaban sudah terkirim${S.alasan&&S.alasan!=="selesai"?` (${esc(S.alasan)})`:""}.</p><p class="mut">Nilai otomatis (pilihan ganda, benar/salah, pilihan jamak)</p><div class="big">${S.hasil.nilai} <span class="mut">/ ${S.hasil.maks}</span></div><p class="mut">Soal esai dinilai oleh guru.</p>`;
+  else h+=`<p class="err">Jawaban belum terkirim (${esc(S.err||"")}). Pastikan internet aktif, lalu kirim ulang. Jawabanmu tetap tersimpan.</p><button class="btn" onclick="S.st='exam';kirim(S.alasan||'selesai')">Kirim ulang</button>`;
+  $("#app").innerHTML=h+"</div>";
+}
+render();
+</script></body></html>
